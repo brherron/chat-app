@@ -1,0 +1,109 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title *ngIf="currentSMS">
+      {{ currentContact }}
+    </ion-title>
+    <div *ngIf="!currentSMS">
+      <ion-input numbersOnly [(ngModel)]="currentNumber" inputmode="numeric" autofocus="true"
+        maxlength="10" required (ionBlur)="onBlurm()">
+        To:
+      </ion-input>
+    </div>
+    <ion-buttons slot="start">
+      <ion-back-button text="" icon="chevron-back" defaultHref="/">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button slot="start" (click)="openGalleryModal()">
+        open
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content #content>
+  <ion-row *ngIf="!imagesLoaded" class="spinner-row">
+    <ion-spinner></ion-spinner>
+  </ion-row>
+  <!-- Dummy image to get image loading directive to fire. -->
+  <img src="" alt="dummy" hidden>
+  <div [hidden]="!imagesLoaded">
+    <div class="content-container">
+        <div class="top-content">
+          <ion-infinite-scroll threshold="0px" position="top" [disabled]="outOfMessages"
+            (ionInfinite)="loadMoreMessages(10)" id="scroller">
+            <ion-infinite-scroll-content  id="scrollerContent">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+              <ion-grid class="thread">
+                  <ion-row class="outOfMessages" *ngIf="outOfMessages">
+                      <ion-col size="12" class="ion-text-center">
+                          Beginning of chat
+                      </ion-col>
+                  </ion-row>
+                  <ion-row *ngFor="let item of currentSMSThread?.reverse(); let i = index" class="chatMessage fade">
+                      <ion-col size="12">
+                          <ion-row class="messageDate"
+                                    *ngIf="(item === currentSMSThread[0]) || (Math.abs(item.CreationDate - currentSMSThread[i-1]?.CreationDate)/1000 > timestampThresh*60)">
+                              {{ item.CreationDate | date:'short' }}
+                          </ion-row>
+                          <div *ngIf="item.IsIncoming">
+                              <ion-row *ngIf="item.Message.length > 0">
+                                  <ion-col class="message" size="auto">
+                                      <span class="messageText ion-text-start">{{ item.Message }}</span>
+                                  </ion-col>
+                              </ion-row>
+                              <ion-row *ngIf="item.SMSPictureURLs && item.SMSPictureURLs.length > 0">
+                                  <ion-row class="imageRow" *ngFor="let image of item.SMSPictureURLs">
+                                    <ion-col class="imageContainer" size="auto">
+                                      <app-chat-image [src]="image" [maxHeight]="350" [maxWidth]="400" (click)="openModal(image)"></app-chat-image>
+                                    </ion-col>
+                                  </ion-row>
+                              </ion-row>
+                          </div>
+                          <div *ngIf="!item.IsIncoming">
+                              <ion-row class="align-right" *ngIf="item.Message.length > 0">
+                                  <ion-col class="message outgoing" size="auto">
+                                      <span class="messageText ion-text-start">{{ item.Message }}</span>
+                                  </ion-col>
+                              </ion-row>
+                              <ion-row class="align-right" *ngIf="item.SMSPictureURLs && item.SMSPictureURLs.length > 0">
+                                <ion-row class="imageRow align-right" *ngFor="let image of item.SMSPictureURLs">
+                                  <ion-col class="imageContainer" size="auto">
+                                    <app-chat-image [src]="image" [maxHeight]="350" [maxWidth]="400" (click)="openModal(image)"></app-chat-image>
+                                  </ion-col>
+                                </ion-row>
+                            </ion-row>
+                          </div>
+                      </ion-col>
+                  </ion-row>
+            </ion-grid>
+        </div>
+    </div>
+  </div>
+</ion-content>
+
+<div class="bottom-content">
+  <ion-grid class="chatGrid">
+      <ion-row>
+          <ion-col class="inputCol" size="10">
+              <ion-textarea class="chatInput" name="inputReply" (ionFocus)="onFocus('inputReply')"
+                            placeholder="Text Message" autocomplete="off" auto-grow="true"
+                            aria-autocomplete="off" spellcheck="true" inputmode="email" [(ngModel)]="inputReply">
+              </ion-textarea>
+          </ion-col>
+          <ion-col *ngIf="currentSMS" class="buttonCol ion-align-self-end" size="2">
+              <ion-button (click)="replySMS()" [disabled]="loading || inputReply.length === 0"
+                          class="footerButton" fill="clear">
+                  <ion-icon name="send"></ion-icon>
+              </ion-button>
+          </ion-col>
+          <ion-col *ngIf="!currentSMS" class="buttonCol ion-align-self-center ion-text-center" size="2">
+            <span>$0.13</span>
+            <ion-button (click)="initiateSMS()" [disabled]="loading || inputReply.length === 0 || currentNumber.length !== 10"
+                        class="footerButton" fill="clear">
+                <ion-icon slot="icon-only" name="send"></ion-icon>
+            </ion-button>
+        </ion-col>
+      </ion-row>
+  </ion-grid>
+</div>

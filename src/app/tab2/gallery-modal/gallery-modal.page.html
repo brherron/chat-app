@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>gallery-modal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col class="leftCol">
+      <div *ngFor="let image of leftImages">
+        <app-chat-image [src]="image" [maxHeight]="350" [maxWidth]="400" (click)="openModal(image)"></app-chat-image>
+      </div>
+    </ion-col>
+    <ion-col class="rightCol">
+      <div *ngFor="let image of rightImages">
+        <app-chat-image [src]="image" [maxHeight]="350" [maxWidth]="400" (click)="openModal(image)"></app-chat-image>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

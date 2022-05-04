@@ -1,0 +1,133 @@
+.content-container {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+.fade {
+  transition: all linear 1s;
+}
+
+.top-content {
+  width: 100%;
+  flex: 1 !important;
+}
+
+.thread {
+  // margin-top: 2.2rem;
+}
+
+.threadHeader {
+  position: fixed;
+  padding: 0.5rem 1rem 0.2rem 1rem;
+  background: #404040;
+  z-index: 100;
+  color: white;
+  width: 100%;
+}
+
+.outOfMessages {
+  font-size: 0.9rem;
+  color: #ffffff55;
+  margin: 1rem 0;
+}
+
+.messageDate {
+  justify-content: center;
+  font-size: 0.7rem;
+  color: #ffffff99;
+}
+
+.message {
+  padding: 10px;
+  border-radius: 10px;
+  margin: 5px 0;
+  white-space: pre-wrap;
+  background: grey;
+  color: white;
+  max-width: 75%;
+}
+
+.imageRow {
+  margin: 1px 0;
+  width: 100%;
+}
+
+.imageContainer {
+  padding: 0;
+}
+
+.outgoing {
+  background: #3880ff;
+}
+
+.chatMessage {
+  height: 100%;
+  opacity: 0;
+  animation: slideIn 0.2s 0s both ease-in;
+}
+
+.align-right {
+  justify-content: flex-end;
+}
+
+.messageText {
+  font-size: 0.9rem;
+}
+
+.bottom-content {
+  height: auto;
+}
+
+.chatInput {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  margin: 5px;
+  max-height: 300px;
+}
+
+.chatGrid {
+  padding: 0;
+  margin: 0;
+}
+
+.inputCol {
+  width: auto;
+}
+
+.buttonCol {
+  width: 100%;
+  margin: 15px auto;
+}
+
+.footerButton {
+  width: 95%;
+  margin: auto;
+
+  ion-icon {
+    font-size: 42px;
+  }
+}
+
+.picMargin {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.spinner-row {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
