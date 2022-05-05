@@ -1,0 +1,37 @@
+<ion-toolbar>
+  <ion-title>
+    <strong >
+      <span *ngIf="contact.length > 0">{{ contact }} - </span>
+      <span *ngIf="number.length > 0">{{ number | phone:'US' }}</span>
+    </strong>
+  </ion-title>
+  <ion-buttons slot="end">
+    <ion-button (click)="close()">
+      <ion-icon slot="start" name="close-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content>
+  <ion-row *ngIf="loading" class="spinnerRow">
+    <ion-spinner name="crescent" color="light"></ion-spinner>
+  </ion-row>
+  <div *ngIf="!loading">
+    <ion-row class="supplementalText">
+      <ion-col size="12" class="ion-text-center">
+        <span *ngIf="images.length > 0">Image history</span>
+        <span *ngIf="images && images.length === 0">No images to show</span>
+      </ion-col>
+    </ion-row>
+    <div class="gallery-wrapper">
+      <section *ngFor="let image of images">
+        <img src="{{ image.Src }}" (click)="openImageModal(image.Src, image.CreationDate)">
+      </section>
+
+      <ion-infinite-scroll threshold="5%" (ionInfinite)="loadMoreImages($event)"
+                           [disabled]="outOfImages || loading">
+        <ion-infinite-scroll-content class="scroller"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </div>
+  </div>
+</ion-content>

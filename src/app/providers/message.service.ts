@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
-import { Message } from '../tab1/tab1.page';
+import { Message } from '../inbox/inbox.page';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +45,99 @@ export class MessageService {
 
       current++;
     }
+
+    console.log(messages)
     return messages;
   }
+
+  async GetImageHistoryByContact(contact: string, skip: number, limit: number): Promise<Message[]> {
+    let iMessages = fauxData
+      .filter(o => o.PhoneNumber === contact)
+      .filter(m => {
+        if (m.SMSPictureURLs && m.SMSPictureURLs.length > 0) {
+          return true;
+        }
+        return false;
+      });
+
+    const messages = [];
+    let current = 0;
+    let counter = 0;
+
+    for (const message of iMessages) {
+      if (current >= skip) {
+        if (counter === limit) {
+          break;
+        }
+
+        messages.push(message as Message);
+        counter++;
+      }
+
+      current++;
+    }
+
+    console.log(messages)
+
+    return messages;
+  }
+
+  public waitRendering(): Promise<void> {
+		return Promise.race([
+			new Promise<void>((resolve) => requestAnimationFrame(() => resolve())),
+			new Promise<void>((resolve) => setTimeout(() => resolve())),
+		]);
+	}
+
+  public concatSMSByID(arrayOld: Message[], arrayNew: Message[], key: string, order: string = 'DESC'): Message[] {
+		if (!arrayNew.length && !arrayOld.length) {
+			return [];
+		}
+
+		const first = arrayNew[0][key] as number;
+		const last = arrayNew[arrayNew.length - 1][key] as number;
+
+		arrayOld = arrayOld || [];
+		arrayNew = arrayNew || [];
+		arrayOld = arrayOld.filter(v => {
+			return (
+				(first > last && ((v[key] as number) >= first || (v[key] as number) <= last)) ||
+				(first < last && ((v[key] as number) <= first || (v[key] as number) >= last)) ||
+				(first as number) === (last as number)
+			);
+		});
+
+		const oldData = arrayOld.filter(v => {
+			let flag = true;
+			arrayNew.forEach(m => {
+				if (m[key] === v[key]) {
+					flag = false;
+				}
+			});
+			return flag;
+		});
+
+		let data = arrayNew.concat(oldData);
+
+		let ord = -1;
+		if (order === 'ASC') {
+			ord = 1;
+		}
+
+		data = data.sort((a, b) => {
+			const x = a[key] as number;
+			const y = b[key] as number;
+			if (x > y) {
+				return ord;
+			}
+			if (x < y) {
+				return ord * -1;
+			}
+			return 0;
+		});
+
+		return data;
+	}
 }
 
 const fauxData = [
@@ -237,7 +328,7 @@ const fauxData = [
   },
   {
     Message:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+      'Whats good?',
     CreationDate: new Date('2021-11-24T14:59:54.000Z'),
     PhoneNumber: '1234567890',
     IsIncoming: true,

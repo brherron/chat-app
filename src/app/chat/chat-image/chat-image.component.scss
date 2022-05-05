@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  position: absolute;
+  color: #ffffff85;
+}
+
+.image {
+  object-fit: cover;
+  background-color: #ffffff15;
+}
+
+.radius {
+  border-radius: 10px;
+}

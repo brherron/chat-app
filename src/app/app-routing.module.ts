@@ -4,15 +4,15 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () => import('./inbox/inbox.module').then(m => m.InboxPageModule)
   },
   {
-    path: 'tab2',
-    loadChildren: () => import('./tab2/tab2.module').then(m => m.Tab2PageModule)
+    path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then(m => m.ChatPageModule)
   },
   {
     path: 'image-modal',
-    loadChildren: () => import('./shared/image-modal/image-modal.module').then( m => m.ImageModalPageModule)
+    loadChildren: () => import('./chat/image-view/image-view.module').then( m => m.ImageViewPageModule)
   }
 ];
 @NgModule({

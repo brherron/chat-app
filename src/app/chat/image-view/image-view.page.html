@@ -1,0 +1,25 @@
+<ion-content>
+  <ion-slides [options]="sliderOpts">
+    <ion-slide>
+      <div class="swiper-zoom-container">
+        <img src="{{ src }}">
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
+<ion-footer>
+  <ion-row>
+    <ion-col size="12" class="imageDate ion-text-center">
+      {{ date | date:'short' }}
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="ion-text-center">
+      <ion-button (click)="close()" fill="clear" color="light">
+        <ion-icon name="close" slot="start"></ion-icon>
+        close
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

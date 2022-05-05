@@ -22,6 +22,7 @@
     "@capacitor/core": "3.3.2",
     "@ionic/angular": "^5.5.2",
     "jssip": "^3.8.2",
+    "libphonenumber-js": "^1.9.52",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
