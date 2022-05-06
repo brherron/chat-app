@@ -1,10 +1,4 @@
 <ion-toolbar>
-  <ion-title>
-    <strong >
-      <span *ngIf="contact.length > 0">{{ contact }} - </span>
-      <span *ngIf="number.length > 0">{{ number | phone:'US' }}</span>
-    </strong>
-  </ion-title>
   <ion-buttons slot="end">
     <ion-button (click)="close()">
       <ion-icon slot="start" name="close-outline"></ion-icon>

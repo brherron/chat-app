@@ -5,6 +5,18 @@
   align-items: center;
 }
 
+ion-item {
+  --ion-border-color: #2e2e2e;
+
+  strong {
+    margin-top: 0.4rem;
+  }
+
+  p {
+    margin: 0.5rem 0;
+  }
+}
+
 .drawerComponent {
   position: absolute;
   box-shadow: rgba(0, 0, 0, 0.12) 0 4px 16px;

@@ -37,10 +37,10 @@ export class GalleryViewPage implements OnInit {
       }
 
       this.imageMessages.map((message) => {
-        for (const imageURL of message.SMSPictureURLs) {
+        for (var i = message.SMSPictureURLs.length - 1; i >= 0; i--) {
           const image = {
             CreationDate: new Date(message.CreationDate),
-            Src: imageURL
+            Src: message.SMSPictureURLs[i]
           }
 
           this.images.push(image);

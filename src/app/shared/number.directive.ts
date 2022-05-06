@@ -15,7 +15,7 @@ export class NumberDirective {
 
     const regex = new RegExp("^[0-9\~]*$");
     var key = String.fromCharCode(!evt.charCode ? evt.which : evt.charCode);
-    console.log(regex.test(key))
+
     if (!regex.test(key)) {
         evt.preventDefault();
         return false;

@@ -3,6 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { MessageService } from '../providers/message.service';
+import { PhonePipe } from '../pipes/phone-number';
 import * as JsSIP from 'jssip';
 
 @Component({
@@ -19,8 +20,11 @@ export class InboxPage implements OnInit {
   threads = [];
   ua: any;
 
-  constructor(private router: Router,
-    private message: MessageService) {
+  constructor(
+    private router: Router,
+    private message: MessageService,
+    private phonePipe: PhonePipe
+  ) {
     this.loadMessages();
   }
 
@@ -56,8 +60,7 @@ export class InboxPage implements OnInit {
   async newMessage() {
     const navigationExtras: NavigationExtras = {
       state: {
-        message: null,
-        inbox: this.inbox,
+        inbox: this.inbox
       },
     };
 
@@ -80,9 +83,9 @@ export class InboxPage implements OnInit {
         g.Message =
           t.Message.substring(0, 50) + `${t.Message.length > 50 ? '...' : ''}`;
         if (t.FirstName.length > 0 && t.LastName.length > 0) {
-          g.Subject = `${t.FirstName}  ${t.LastName}`;
+          g.Subject = `${t.FirstName} ${t.LastName}`;
         } else {
-          g.Subject = `SMS from ${t.PhoneNumber}`;
+          g.Subject = this.phonePipe.transform(t.PhoneNumber, 'US');
         }
 
         gInbox.push(g);
@@ -102,14 +105,6 @@ export class InboxPage implements OnInit {
     });
 
     this.threads = gInbox;
-  }
-
-  composeEmail() {
-    console.log('Email');
-  }
-
-  composeSMS() {
-
   }
 
   async simulateThreads(messages) {

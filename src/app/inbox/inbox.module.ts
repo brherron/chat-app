@@ -5,13 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { InboxPage } from './inbox.page';
 
 import { InboxPageRoutingModule } from './inbox-routing.module';
+import { PipesModule } from '../pipes/pipes.module'
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    InboxPageRoutingModule
+    InboxPageRoutingModule,
+    PipesModule
   ],
   declarations: [InboxPage]
 })

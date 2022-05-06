@@ -8,8 +8,9 @@ import { ChatPageRoutingModule } from './chat-routing.module';
 
 import { ChatPage } from './chat.page';
 import { ChatImageModule } from './chat-image/chat-image.module';
-import { MyImgDirective } from '../providers/img.directive';
-import { NumberDirective } from '../providers/numbersonly.directive';
+
+import { PipesModule } from '../pipes/pipes.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -17,13 +18,12 @@ import { NumberDirective } from '../providers/numbersonly.directive';
     CommonModule,
     FormsModule,
     ChatPageRoutingModule,
-    ChatImageModule
+    ChatImageModule,
+    PipesModule,
+    SharedModule
   ],
   declarations: [
     ChatPage,
-    MyImgDirective,
-    NumberDirective
-  ],
-  exports: [NumberDirective]
+  ]
 })
 export class ChatPageModule {}

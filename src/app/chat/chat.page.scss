@@ -1,41 +1,64 @@
+.threadHeader {
+  --background: #404040;
+  --min-height: 60px;
+
+  ion-title {
+    font-size: 1rem;
+    padding: 0;
+  }
+}
+
+ion-content {
+  --ion-background-color:#242424;
+}
+
 .content-container {
   height: 100%;
   display: flex;
   flex-flow: column;
 }
 
-.fade {
-  transition: all linear 1s;
-}
-
 .top-content {
   width: 100%;
   flex: 1 !important;
+  background-color: #242424;
+  padding: 0 2vw;
 }
 
-.thread {
-  // margin-top: 2.2rem;
+.numberInput {
+  --padding-start: 0.5rem;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
-.threadHeader {
-  position: fixed;
-  padding: 0.5rem 1rem 0.2rem 1rem;
-  background: #404040;
-  z-index: 100;
-  color: white;
-  width: 100%;
+.spinnerRow {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #242424;
 }
 
-.outOfMessages {
+.scroller {
+  --color: #ffffff85;
+  min-height: 24px;
+}
+
+.supplementalText {
   font-size: 0.9rem;
-  color: #ffffff55;
-  margin: 1rem 0;
+  color: #ffffff85;
+  margin: 0 0 0.3rem 0;
+  transition: 0.2s;
 }
 
 .messageDate {
+  margin-top: 0.5rem;
   justify-content: center;
   font-size: 0.7rem;
-  color: #ffffff99;
+  color: #ffffff85;
 }
 
 .message {
@@ -65,6 +88,10 @@
   height: 100%;
   opacity: 0;
   animation: slideIn 0.2s 0s both ease-in;
+
+  .chatCol {
+      padding: 0;
+  }
 }
 
 .align-right {
@@ -76,19 +103,23 @@
 }
 
 .bottom-content {
+  box-shadow: #00000045 0 4px 10px;
   height: auto;
+}
+
+.chatGrid {
+  height: auto;
+  background-color: #242424;
+  padding: 0;
+  margin: 0;
 }
 
 .chatInput {
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  color: white;
+  border-radius: 5px;
   margin: 5px;
-  max-height: 300px;
-}
-
-.chatGrid {
-  padding: 0;
-  margin: 0;
+  max-height: 250px;
 }
 
 .inputCol {
@@ -96,17 +127,23 @@
 }
 
 .buttonCol {
+  padding: 0;
   width: 100%;
-  margin: 15px auto;
 }
 
 .footerButton {
   width: 95%;
   margin: auto;
+  transition: 0.2s;
 
   ion-icon {
-    font-size: 42px;
+      transform: scale(1.4);
+      fill: #3880ff;
   }
+}
+
+.noReply {
+  padding-bottom: 1rem;
 }
 
 .picMargin {
@@ -114,11 +151,36 @@
   margin-top: 5px;
 }
 
-.spinner-row {
+.spinnerRow {
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #242424;
+}
+
+.typing {
+  min-width: 50px;
+}
+
+.ellipsis1, .ellipsis2, .ellipsis3 {
+  opacity: 0;
+  animation-name: typing;
+  animation-duration: 1.7s;
+  animation-iteration-count: infinite;
+
+}
+
+.ellipsis1 {
+  animation-delay: 0s;
+}
+
+.ellipsis2 {
+  animation-delay: 0.3s;
+}
+
+.ellipsis3 {
+  animation-delay: 0.6s;
 }
 
 @keyframes slideIn {
@@ -129,5 +191,20 @@
   100% {
     opacity: 1;
     transform: none;
+  }
+}
+
+@keyframes typing {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }

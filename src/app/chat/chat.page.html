@@ -1,115 +1,120 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title *ngIf="currentSMS">
-      <strong *ngIf="currentSMS">
-        <span *ngIf="verifiedUser && verifiedUser.idIccUser > 0">
-          <ion-icon color="primary" name="person"></ion-icon>
-          {{ currentContact }} -
-        </span>
-        <span *ngIf="currentContact.length < 30">{{ currentNumber | phone:'US' }}</span>
-      </strong>
-      <div *ngIf="!currentSMS">
-        <ion-input numbersOnly [(ngModel)]="currentNumber" inputmode="numeric" autofocus="true"
-          maxlength="10" required (ionBlur)="onBlur()">
-          To:
-        </ion-input>
-      </div>
-    </ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button text="" icon="chevron-back" defaultHref="/">
-      </ion-back-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button slot="start" (click)="openGalleryModal()">
-        <ion-icon slot="start" name="images-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-<ion-content #content>
-  <!-- Dummy image to get image loading directive to fire. -->
-  <img src="" alt="dummy" hidden>
+<ion-toolbar class="threadHeader">
+  <ion-title>
+    <strong *ngIf="currentSMS">
+      <span *ngIf="verifiedUser">
+        <ion-icon color="primary" name="person"></ion-icon>
+        {{ currentContact }} -
+      </span>
+      <span *ngIf="currentContact.length < 30">{{ currentNumber | phone:'US' }}</span>
+    </strong>
+    <div *ngIf="!currentSMS">
+      <ion-input class="numberInput" name="currentNumber" numbersOnly [(ngModel)]="currentNumber" inputmode="numeric"
+        maxlength="10" (ionBlur)="onNumberBlur()" (ionFocus)="onFocus('currentNumber')" required>
+        To:
+      </ion-input>
+    </div>
+  </ion-title>
+  <ion-buttons slot="start">
+    <ion-back-button text="" icon="chevron-back" defaultHref="/">
+    </ion-back-button>
+  </ion-buttons>
+  <ion-buttons *ngIf="currentSMS" slot="end">
+		<ion-button id="changeText" (click)="openGalleryModal()">
+			<ion-icon slot="start" name="images-outline"></ion-icon>
+		</ion-button>
+	</ion-buttons>
+</ion-toolbar>
+<ion-content>
   <div class="content-container">
     <div class="top-content">
-      <ion-row *ngIf="!imagesLoaded" class="spinner-row">
+      <ion-row *ngIf="!imagesLoaded" class="spinnerRow">
         <ion-spinner></ion-spinner>
       </ion-row>
       <div [hidden]="!imagesLoaded">
-        <ion-grid class="thread">
+        <ion-grid class="chatGrid">
           <ion-infinite-scroll threshold="0px" position="top" [disabled]="outOfMessages || loading || !imagesLoaded"
-            (ionInfinite)="loadMoreMessages(10)" id="scroller">
-            <ion-infinite-scroll-content class="scroller" id="scrollerContent">
-            </ion-infinite-scroll-content>
+            (ionInfinite)="loadMoreMessages($event, 10)">
+            <ion-infinite-scroll-content class="scroller"></ion-infinite-scroll-content>
           </ion-infinite-scroll>  
-          <ion-row class="outOfMessages" *ngIf="outOfMessages">
+          <ion-row class="supplementalText" *ngIf="outOfMessages">
             <ion-col size="12" class="ion-text-center">
               Beginning of chat
             </ion-col>
           </ion-row>
-          <ion-row *ngFor="let item of currentSMSThread?.reverse(); let i = index" class="chatMessage fade">
-            <ion-col size="12">
-                <ion-row class="messageDate"
-                    *ngIf="(item === currentSMSThread[0]) || (Math.abs(item.CreationDate - currentSMSThread[i-1]?.CreationDate)/1000 > timestampThresh*60)">
-                    {{ item.CreationDate | date:'short' }}
+          <ion-row *ngFor="let item of currentSMSThread; let i = index" class="chatMessage">
+            <ion-col class="chatCol" size="12">
+              <ion-row class="messageDate"
+                  *ngIf="Math.abs(currentSMSThread[i-1]?.CreationDate-item.CreationDate)/60000 > timestampThresh">
+                  {{ item.CreationDate | date:'short' }}
+              </ion-row>
+              <div *ngIf="item.IsIncoming">
+                <ion-row *ngIf="item.Message.length > 0">
+                  <ion-col class="message" size="auto">
+                    <span class="messageText ion-text-start">{{ item.Message }}</span>
+                  </ion-col>
                 </ion-row>
-                <div *ngIf="item.IsIncoming">
-                    <ion-row *ngIf="item.Message.length > 0">
-                        <ion-col class="message" size="auto">
-                            <span class="messageText ion-text-start">{{ item.Message }}</span>
-                        </ion-col>
-                    </ion-row>
-                    <ion-row *ngIf="item.SMSPictureURLs && item.SMSPictureURLs.length > 0">
-                        <ion-row class="imageRow" *ngFor="let image of item.SMSPictureURLs">
-                          <ion-col class="imageContainer" size="auto">
-                            <app-chat-image [src]="image" [maxHeight]="350" [maxWidth]="400" (click)="openModal(image)" [borderRadius]="true"></app-chat-image>
-                          </ion-col>
-                        </ion-row>
-                    </ion-row>
-                </div>
-                <div *ngIf="!item.IsIncoming">
-                    <ion-row class="align-right" *ngIf="item.Message.length > 0">
-                        <ion-col class="message outgoing" size="auto">
-                            <span class="messageText ion-text-start">{{ item.Message }}</span>
-                        </ion-col>
-                    </ion-row>
-                    <ion-row class="align-right" *ngIf="item.SMSPictureURLs && item.SMSPictureURLs.length > 0">
-                      <ion-row class="imageRow align-right" *ngFor="let image of item.SMSPictureURLs">
-                        <ion-col class="imageContainer" size="auto">
-                          <app-chat-image [src]="image" [maxHeight]="350" [maxWidth]="400" (click)="openModal(image)" [borderRadius]="true"></app-chat-image>
-                        </ion-col>
-                      </ion-row>
+                <ion-row *ngIf="item.SMSPictureURLs && item.SMSPictureURLs.length > 0">
+                  <ion-row class="imageRow" *ngFor="let image of item.SMSPictureURLs">
+                    <ion-col class="imageContainer" size="auto">
+                      <app-chat-image [src]="image" [maxHeight]="350" [maxWidth]="400" (click)="openImageModal(image, item.CreationDate)" [borderRadius]="true"></app-chat-image>
+                    </ion-col>
                   </ion-row>
-                </div>
+                </ion-row>
+              </div>
+              <div *ngIf="!item.IsIncoming">
+                <ion-row class="align-right" *ngIf="item.Message.length > 0">
+                  <ion-col class="message outgoing" size="auto">
+                    <span class="messageText ion-text-start">{{ item.Message }}</span>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="align-right" *ngIf="item.SMSPictureURLs && item.SMSPictureURLs.length > 0">
+                  <ion-row class="imageRow align-right" *ngFor="let image of item.SMSPictureURLs">
+                    <ion-col class="imageContainer" size="auto">
+                      <app-chat-image [src]="image" [maxHeight]="350" [maxWidth]="400" (click)="openImageModal(image, item.CreationDate)" [borderRadius]="true"></app-chat-image>
+                    </ion-col>
+                  </ion-row>
+                </ion-row>
+              </div>
+            </ion-col>
+          </ion-row>
+          <!-- Chat bubble -->
+          <ion-row *ngIf="contactTyping" class="chatMessage">
+            <ion-col class="chatCol" size="12">
+              <div>
+                <ion-row>
+                  <ion-col class="message typing" size="auto">
+                    <span class="messageText ion-text-start ellipsis1">●</span>
+                    <span class="messageText ion-text-start ellipsis2">●</span>
+                    <span class="messageText ion-text-start ellipsis3">●</span>
+                  </ion-col>
+                </ion-row>
+              </div>
             </ion-col>
           </ion-row>
         </ion-grid>
       </div>
     </div>
   </div>
+  <img src="" alt="dummy" hidden> <!-- Dummy image to fire off the image directive. -->
 </ion-content>
-
 <div class="bottom-content">
   <ion-grid class="chatGrid">
-      <ion-row>
-          <ion-col class="inputCol" size="10">
-              <ion-textarea class="chatInput" name="inputReply" (ionFocus)="onFocus('inputReply')"
-                            placeholder="Text Message" autocomplete="off" auto-grow="true"
-                            aria-autocomplete="off" spellcheck="true" inputmode="email" [(ngModel)]="inputReply">
-              </ion-textarea>
-          </ion-col>
-          <ion-col *ngIf="currentSMS" class="buttonCol ion-align-self-end" size="2">
-              <ion-button (click)="replySMS()" [disabled]="loading || inputReply.length === 0"
-                          class="footerButton" fill="clear">
-                  <ion-icon name="send"></ion-icon>
-              </ion-button>
-          </ion-col>
-          <ion-col *ngIf="!currentSMS" class="buttonCol ion-align-self-center ion-text-center" size="2">
-            <span>$0.13</span>
-            <ion-button (click)="initiateSMS()" [disabled]="loading || inputReply.length === 0 || currentNumber.length !== 10"
-                        class="footerButton" fill="clear">
-                <ion-icon slot="icon-only" name="send"></ion-icon>
-            </ion-button>
+    <form (ngSubmit)="replySMS($event)" (keyup)="replySMS($event)">
+      <ion-row *ngIf="smsEnabled || (!smsEnabled && verifiedUser)">
+        <ion-col class="inputCol" size="10">
+          <ion-textarea class="chatInput" name="inputReply" (ionFocus)="onFocus('inputReply')" (ionChange)="countChar()"
+            placeholder="Text Message" autocomplete="off" auto-grow="true"
+            aria-autocomplete="off" spellcheck="true" inputmode="email" [(ngModel)]="inputReply">
+          </ion-textarea>
+        </ion-col>
+        <ion-col class="buttonCol ion-align-self-center ion-text-center" size="2">
+          <p class="supplementalText">{{ ratePerMessage * rateMultiplier * numberOfMessages | currency }}</p>
+          <ion-button type="submit" class="footerButton"
+            [disabled]="loading || inputReply.length === 0 || currentNumber.length !== 10" fill="clear">
+            <ion-icon slot="icon-only" name="send"></ion-icon>
+          </ion-button>
         </ion-col>
       </ion-row>
+    </form>
   </ion-grid>
 </div>

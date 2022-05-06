@@ -12,7 +12,10 @@ import { PhonePipe } from './pipes/phone-number';
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy, PhonePipe }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    PhonePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
