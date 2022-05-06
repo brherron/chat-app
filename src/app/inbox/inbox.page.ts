@@ -25,10 +25,10 @@ export class InboxPage implements OnInit {
     private message: MessageService,
     private phonePipe: PhonePipe
   ) {
-    this.loadMessages();
   }
 
   async ngOnInit() {
+    this.loadMessages();
   }
 
   async loadMessages() {
@@ -155,6 +155,7 @@ export class Message {
   LastName: string;
   PhoneNumber: string;
   SMSPictureURLs: string[];
+  ShowTimestamp: boolean;
 }
 
 export class Thread {

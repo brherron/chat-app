@@ -44,7 +44,7 @@
           <ion-row *ngFor="let item of currentSMSThread; let i = index" class="chatMessage">
             <ion-col class="chatCol" size="12">
               <ion-row class="messageDate"
-                  *ngIf="Math.abs(currentSMSThread[i-1]?.CreationDate-item.CreationDate)/60000 > timestampThresh">
+                  *ngIf="item.ShowTimestamp">
                   {{ item.CreationDate | date:'short' }}
               </ion-row>
               <div *ngIf="item.IsIncoming">

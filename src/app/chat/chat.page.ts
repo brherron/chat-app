@@ -115,6 +115,12 @@ export class ChatPage implements OnInit, OnDestroy {
 
       const messages = await this.messageService.getMessages(0, amount, this.currentNumber);
 
+      messages.map((message, i, array) => {
+        if (i + 1 < array.length) {
+          message.ShowTimestamp = Math.abs(message.CreationDate.getTime() - array[i+1].CreationDate.getTime())/60000 > this.timestampThresh;
+        }
+      })
+
       this.currentSMSThread = this.messageService.concatSMSByID(this.currentSMSThread, messages, 'idInmateSMS', 'ASC');
 	  } catch (err) {
 		  console.log(err);
@@ -140,6 +146,7 @@ export class ChatPage implements OnInit, OnDestroy {
       copy.IsIncoming = false;
 
       this.currentSMSThread.push(copy);
+      this.messageService.data.push(copy);
       this.currentSMS = this.currentSMSThread[this.currentSMSThread.length -1];
 
       requestAnimationFrame(() => this.content.scrollToBottom(100));   
@@ -169,6 +176,12 @@ export class ChatPage implements OnInit, OnDestroy {
 
     try {
       newMessages = await this.messageService.getMessages(this.currentSMSThread.length, amount, this.currentNumber);
+
+      newMessages.map((message, i, array) => {
+        if (i + 1 < array.length) {
+          message.ShowTimestamp = Math.abs(message.CreationDate.getTime() - array[i+1].CreationDate.getTime())/60000 > this.timestampThresh;
+        }
+      })
       
       // Simulate loading.
       await wait(1000);      
@@ -276,6 +289,7 @@ export class ChatPage implements OnInit, OnDestroy {
   
       this.contactTyping = false;
       this.currentSMSThread.push(copy);
+      this.messageService.data.push(copy);
       setTimeout(() => {
         requestAnimationFrame(() => this.content.scrollToBottom(100)); 
       }, 100) 
