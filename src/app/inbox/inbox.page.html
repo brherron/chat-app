@@ -1,37 +1,25 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Inbox</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="newMessage()"><ion-icon name="create"></ion-icon></ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-button expand="block" size="" disabled>
-          Send Email
-        </ion-button>
-      </ion-col>
-      <ion-col (click)="newMessage()">
-        <ion-button expand="block" size="">
-          Send Text
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
   <div class="spinnerCenter">
     <ion-spinner *ngIf="loading"></ion-spinner>
   </div>
   <ion-list *ngIf="!loading">
     <ion-item button *ngFor="let thread of threads" (click)="selectMessage(thread)">
-      <ion-grid>
-        <ion-row>
-          <strong>{{ thread.Subject }}</strong>
-        </ion-row>
-        <ion-row>
-          <p>{{ thread.Message }}</p>
-        </ion-row>
-      </ion-grid>
+      <ion-avatar slot="start">
+        <img src="{{ thread.AvatarURL }}" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ thread.Subject }}</h2>
+        <p>{{ thread.Message }}</p>
+      </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

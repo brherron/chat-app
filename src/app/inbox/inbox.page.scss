@@ -5,8 +5,13 @@
   align-items: center;
 }
 
+ion-list {
+  padding: 0;
+}
+
 ion-item {
-  --ion-border-color: #2e2e2e;
+  --ion-border-color: #414141;
+  --ion-item-background: #282828;
 
   strong {
     margin-top: 0.4rem;

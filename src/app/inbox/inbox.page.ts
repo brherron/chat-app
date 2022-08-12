@@ -80,6 +80,22 @@ export class InboxPage implements OnInit {
         const g = new Thread();
         g.CreationDate = t.CreationDate;
         g.idIdentifier = t.idInmateSMS;
+
+        switch (t.FirstName) {
+          case 'Pigeon':
+            g.AvatarURL = '../../assets/pigeonman.webp';
+            break;
+          case 'Twister':
+            g.AvatarURL = '../../assets/twister.png';
+            break;
+          case 'Chip':
+            g.AvatarURL = '../../assets/chipskylark.jpeg';
+            break;
+          default:
+            g.AvatarURL = '../../assets/default.png'
+            break;
+        }
+
         g.Message =
           t.Message.substring(0, 50) + `${t.Message.length > 50 ? '...' : ''}`;
         if (t.FirstName.length > 0 && t.LastName.length > 0) {
@@ -165,4 +181,5 @@ export class Thread {
   LastName: string;
   Subject: string;
   Message: string;
+  AvatarURL: string;
 }

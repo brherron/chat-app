@@ -66,8 +66,8 @@ ion-content {
   border-radius: 10px;
   margin: 5px 0;
   white-space: pre-wrap;
-  background: grey;
-  color: white;
+  background: #353535;
+  color: #fff;
   max-width: 75%;
 }
 
@@ -81,7 +81,8 @@ ion-content {
 }
 
 .outgoing {
-  background: #6048ff;
+  background-color: #626883;
+  color: white;
 }
 
 .chatMessage {
@@ -105,17 +106,18 @@ ion-content {
 .bottom-content {
   box-shadow: #00000045 0 4px 10px;
   height: auto;
+  padding-bottom: 2rem;
+  background-color: #404040;
 }
 
-.chatGrid {
+.bottom-content .chatGrid {
   height: auto;
-  background-color: #242424;
   padding: 0;
   margin: 0;
 }
 
 .chatInput {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(4, 3, 3, 0.2);
   color: white;
   border-radius: 5px;
   margin: 5px;
