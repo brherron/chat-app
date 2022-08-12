@@ -1,29 +1,32 @@
-<ion-toolbar class="threadHeader">
-  <ion-title>
-    <strong *ngIf="currentSMS">
-      <span *ngIf="verifiedUser">
-        <ion-icon color="primary" name="person"></ion-icon>
-        {{ currentContact }} -
-      </span>
-      <span *ngIf="currentContact.length < 30">{{ currentNumber | phone:'US' }}</span>
-    </strong>
-    <div *ngIf="!currentSMS">
-      <ion-input class="numberInput" name="currentNumber" numbersOnly [(ngModel)]="currentNumber" inputmode="numeric"
-        maxlength="10" (ionBlur)="onNumberBlur()" (ionFocus)="onFocus('currentNumber')" required>
-        To:
-      </ion-input>
-    </div>
-  </ion-title>
-  <ion-buttons slot="start">
-    <ion-back-button text="" icon="chevron-back" defaultHref="/">
-    </ion-back-button>
-  </ion-buttons>
-  <ion-buttons *ngIf="currentSMS" slot="end">
-		<ion-button id="changeText" (click)="openGalleryModal()">
-			<ion-icon slot="start" name="images-outline"></ion-icon>
-		</ion-button>
-	</ion-buttons>
-</ion-toolbar>
+<ion-header>
+  <ion-toolbar class="threadHeader">
+    <ion-title>
+      <strong *ngIf="currentSMS">
+        <span *ngIf="verifiedUser">
+          <ion-icon color="primary" name="person"></ion-icon>
+          {{ currentContact }} -
+        </span>
+        <span *ngIf="currentContact.length < 30">{{ currentNumber | phone:'US' }}</span>
+      </strong>
+      <div *ngIf="!currentSMS">
+        <ion-input class="numberInput" name="currentNumber" numbersOnly [(ngModel)]="currentNumber" inputmode="numeric"
+          maxlength="10" (ionBlur)="onNumberBlur()" (ionFocus)="onFocus('currentNumber')" required>
+          To:
+        </ion-input>
+      </div>
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="" icon="chevron-back" defaultHref="/">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-buttons *ngIf="currentSMS" slot="end">
+      <ion-button id="changeText" (click)="openGalleryModal()">
+        <ion-icon slot="start" name="images-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
   <div class="content-container">
     <div class="top-content">
