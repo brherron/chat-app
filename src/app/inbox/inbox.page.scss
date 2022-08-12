@@ -1,5 +1,9 @@
 ion-header {
-  padding-top: 1rem;
+
+  .threadHeader {
+    padding-top: 1rem;
+    --background: #404040
+  };
 }
 
 .spinnerCenter {
