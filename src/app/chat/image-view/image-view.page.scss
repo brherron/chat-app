@@ -18,5 +18,9 @@ ion-slides {
 
 ion-footer  {
     margin-bottom: 1rem;
-    color: white;
+    --color: white;
+}
+
+.close-btn {
+    --color: #fff;
 }
