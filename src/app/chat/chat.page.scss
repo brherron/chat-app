@@ -64,6 +64,7 @@ ion-content {
 
 .message {
   padding: 10px;
+  padding-top: 5px;
   border-radius: 10px;
   margin: 5px 0;
   white-space: pre-wrap;
@@ -74,7 +75,7 @@ ion-content {
 
 .imageRow {
   margin: 1px 0;
-  width: 100%;
+  width: 75%;
 }
 
 .imageContainer {
@@ -101,7 +102,7 @@ ion-content {
 }
 
 .messageText {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .bottom-content {
