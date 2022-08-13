@@ -3,7 +3,6 @@ import { ModalController } from '@ionic/angular';
 import { ImageViewPage } from '../image-view/image-view.page';
 
 import { MessageService } from '../../providers/message.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gallery-view',
