@@ -13,13 +13,13 @@ export class ImageDirective {
     imageService.imageLoading(elementRef.nativeElement);
   }
 
-  @HostListener('load')
-  onLoad() {
-    this.imageService.imageLoadedOrError(this.elementRef.nativeElement);
-  }
+  // @HostListener('load')
+  // onLoad() {
+  //   this.imageService.imageLoadedOrError(this.elementRef.nativeElement);
+  // }
 
-  @HostListener('error')
-  onError() {
-    this.imageService.imageLoadedOrError(this.elementRef.nativeElement);
-  }
+  // @HostListener('error')
+  // onError() {
+  //   this.imageService.imageLoadedOrError(this.elementRef.nativeElement);
+  // }
 }
