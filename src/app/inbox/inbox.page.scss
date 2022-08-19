@@ -19,6 +19,8 @@ ion-header {
 }
 
 .content {
+  height: 100vh;
+  width: 100vw;
   animation: slide-in 0.3s ease-in-out;
 }
 

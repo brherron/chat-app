@@ -40,7 +40,7 @@ export class InboxPage implements OnInit {
 
       setTimeout(() => {
         this.loading = false;
-      }, 2000);
+      }, 1500);
     } catch (err) {
       this.loading = false;
       console.log(err);
