@@ -1,15 +1,15 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
-import { MessageService } from '../providers/message.service';
-import { PhonePipe } from '../pipes/phone-number';
-import * as JsSIP from 'jssip';
+import { Component, OnInit } from "@angular/core";
+import { Router, NavigationExtras } from "@angular/router";
+import { MessageService } from "../providers/message.service";
+import { PhonePipe } from "../pipes/phone-number";
+import * as JsSIP from "jssip";
 
 @Component({
-  selector: 'app-inbox',
-  templateUrl: 'inbox.page.html',
-  styleUrls: ['inbox.page.scss']
+  selector: "app-inbox",
+  templateUrl: "inbox.page.html",
+  styleUrls: ["inbox.page.scss"],
 })
 export class InboxPage implements OnInit {
   page = 0;
@@ -24,8 +24,7 @@ export class InboxPage implements OnInit {
     private router: Router,
     private message: MessageService,
     private phonePipe: PhonePipe
-  ) {
-  }
+  ) {}
 
   async ngOnInit() {
     this.loadMessages();
@@ -39,7 +38,9 @@ export class InboxPage implements OnInit {
 
       await this.addMessages();
 
-      this.loading = false;
+      setTimeout(() => {
+        this.loading = false;
+      }, 2000);
     } catch (err) {
       this.loading = false;
       console.log(err);
@@ -54,17 +55,17 @@ export class InboxPage implements OnInit {
       },
     };
 
-    this.router.navigate(['chat'], navigationExtras);
+    this.router.navigate(["chat"], navigationExtras);
   }
 
   async newMessage() {
     const navigationExtras: NavigationExtras = {
       state: {
-        inbox: this.inbox
+        inbox: this.inbox,
       },
     };
 
-    this.router.navigate(['chat'], navigationExtras);
+    this.router.navigate(["chat"], navigationExtras);
   }
 
   async addMessages() {
@@ -82,26 +83,26 @@ export class InboxPage implements OnInit {
         g.idIdentifier = t.idInmateSMS;
 
         switch (t.FirstName) {
-          case 'Pigeon':
-            g.AvatarURL = '../../assets/pigeonman.webp';
+          case "Pigeon":
+            g.AvatarURL = "../../assets/pigeonman.webp";
             break;
-          case 'Twister':
-            g.AvatarURL = '../../assets/twister.png';
+          case "Twister":
+            g.AvatarURL = "../../assets/twister.png";
             break;
-          case 'Chip':
-            g.AvatarURL = '../../assets/chipskylark.jpeg';
+          case "Chip":
+            g.AvatarURL = "../../assets/chipskylark.jpeg";
             break;
           default:
-            g.AvatarURL = '../../assets/default.png'
+            g.AvatarURL = "../../assets/default.png";
             break;
         }
 
         g.Message =
-          t.Message.substring(0, 50) + `${t.Message.length > 50 ? '...' : ''}`;
+          t.Message.substring(0, 50) + `${t.Message.length > 50 ? "..." : ""}`;
         if (t.FirstName.length > 0 && t.LastName.length > 0) {
           g.Subject = `${t.FirstName} ${t.LastName}`;
         } else {
-          g.Subject = this.phonePipe.transform(t.PhoneNumber, 'US');
+          g.Subject = this.phonePipe.transform(t.PhoneNumber, "US");
         }
 
         gInbox.push(g);

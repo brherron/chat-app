@@ -1,25 +1,28 @@
-<ion-header>
-  <ion-toolbar class="threadHeader">
-    <ion-title>Inbox</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="newMessage()"><ion-icon name="create"></ion-icon></ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<div *ngIf="loading" class="spinnerCenter">
+  <ion-spinner></ion-spinner>
+</div>
 
-<ion-content padding>
-  <div class="spinnerCenter">
-    <ion-spinner *ngIf="loading"></ion-spinner>
-  </div>
-  <ion-list *ngIf="!loading">
-    <ion-item button *ngFor="let thread of threads" (click)="selectMessage(thread)">
-      <ion-avatar slot="start">
-        <img src="{{ thread.AvatarURL }}" />
-      </ion-avatar>
-      <ion-label>
-        <h2>{{ thread.Subject }}</h2>
-        <p>{{ thread.Message }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-</ion-content>
+<div class="content" *ngIf="!loading">
+  <ion-header>
+    <ion-toolbar class="threadHeader">
+      <ion-title>Inbox</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="newMessage()"><ion-icon name="create"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content padding>
+    <ion-list>
+      <ion-item button *ngFor="let thread of threads" (click)="selectMessage(thread)">
+        <ion-avatar slot="start">
+          <img src="{{ thread.AvatarURL }}" />
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ thread.Subject }}</h2>
+          <p>{{ thread.Message }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</div>
